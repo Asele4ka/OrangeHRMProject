@@ -16,20 +16,27 @@ public class BaseClass {
 
 	public static WebDriver driver;
 	public static Properties prop;
-	
-	//@Before
+
 	public static void setUp() {
-		
+
 		initProperties(Constants.configFilePath);
-		String browser=prop.getProperty("browser");
-		
-		if(browser.equalsIgnoreCase("chrome")) {
-			System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver");
-			driver=new ChromeDriver();
-		}else if (browser.equalsIgnoreCase("firefox")){
-			System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver");
-			driver=new FirefoxDriver();
-		}else {
+		String browser = prop.getProperty("browser");
+
+		if (browser.equalsIgnoreCase("chrome")) {
+			if (System.getProperty("os.name").contains("Mac")) {
+				System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver");
+			} else {
+				System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+			}
+			driver = new ChromeDriver();
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			if (System.getProperty("os.name").contains("Mac")) {
+				System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver");
+			} else {
+				System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver.exe");
+			}
+			driver = new FirefoxDriver();
+		} else {
 			System.out.println("Please provide valid browser");
 		}
 		driver.manage().window().fullscreen();
@@ -37,11 +44,11 @@ public class BaseClass {
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		driver.get(prop.getProperty("url"));
 	}
-	
+
 	public static void initProperties(String filePath) {
-		prop=new Properties();
+		prop = new Properties();
 		try {
-			FileInputStream fis=new FileInputStream(filePath);
+			FileInputStream fis = new FileInputStream(filePath);
 			prop.load(fis);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -49,8 +56,7 @@ public class BaseClass {
 			e.printStackTrace();
 		}
 	}
-	
-	//@After
+
 	public static void tearDown() {
 		driver.quit();
 	}

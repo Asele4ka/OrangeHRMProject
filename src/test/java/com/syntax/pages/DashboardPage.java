@@ -9,9 +9,7 @@ import com.syntax.utils.BaseClass;
 
 public class DashboardPage extends BaseClass  {
 
-	//WebDriver driver;
-	
-	@FindBy(id = "welcome")
+	@FindBy(xpath="//a[@id='welcome']")
 	public WebElement welcome;
 
 	@FindBy(xpath = "//img[contains(@src, 'MyTimesheet')]")
@@ -20,8 +18,7 @@ public class DashboardPage extends BaseClass  {
 	@FindBy(xpath = "//span[text()='Assign Leave']")
 	public WebElement assignLeave;
 
-	public DashboardPage(WebDriver driver) {
-		//this.driver=driver;
+	public DashboardPage() {
 		PageFactory.initElements(driver, this);
 	}
 }

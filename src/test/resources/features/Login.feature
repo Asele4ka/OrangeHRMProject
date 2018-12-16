@@ -1,7 +1,7 @@
 #Author:asel@syntaxtechs.com
 Feature: LoginFeature
 
-  Background: I am on OrangeHRM
+  Background: 
     Given: I am on OrangeHRM and page title is "OrangeHRM"
 
 
@@ -13,13 +13,37 @@ Feature: LoginFeature
     Then I successfully logged in
 
   Scenario Outline: Invalid Login
-    Validating invalid login with invalid username and invalid password
+    Invalid login with valid username and invalid password
 
     When I enter "<username>" and "<password>"
     And I click login button
-    Then I am still on Login Page
+    Then I see an error message "Invalid credentials"
 
     Examples: 
       | username | password |
-      | Messy    | Messy123 |
-      | Jessy    | Jessy123 |
+      | admin    | Messy123 |
+      | admin    | Jessy123 |
+
+  Scenario Outline: Invalid Login
+    Invalid login with invalid username and invalid password
+
+    When I enter "<username>" and "<password>"
+    And I click login button
+    Then I see an error message "Invalid credentials"
+
+    Examples: 
+      | username | password |
+      | messy    | Messy123 |
+      | ronaldo  | Jessy123 |
+
+  Scenario Outline: Invalid Login
+    Invalid login with empty username and empty password
+
+    When I enter "<username>" and "<password>"
+    And I click login button
+    Then I see an error message "<message>"
+
+    Examples: 
+      | username | password | message                  |
+      |          | Messy123 | Username cannot be empty |
+      | ronaldo  |          | Password cannot b empty  |
